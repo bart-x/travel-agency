@@ -1,19 +1,35 @@
 import React from 'react';
-import { Row, Col } from 'react-flexbox-grid';
-import OrderSummary from '../OrderSummary/OrderSummary.js';
 import PropTypes from 'prop-types';
+import { Row, Col } from 'react-flexbox-grid';
+import OrderSummary from '../OrderSummary/OrderSummary';
+import pricing from '../../../data/pricing.json';
+import OrderOption from '../OrderOption/OrderOption';
 
-const OrderForm = (props) => (
-  <Row>
-    <Col xs={12}>
-      <OrderSummary totalCost={props.tripCost} orderOptions={props.options} />
-    </Col>
-  </Row>
-);
 
-OrderForm.propTypes = {
-  tripCost: PropTypes.string,
-  options: PropTypes.object,
-};
+class OrderForm extends React.Component {
+
+  static propTypes = {
+    tripCost: PropTypes.node,
+    options: PropTypes.object,
+    setOrderOption: PropTypes.func,
+  }
+
+  render() {
+    const { tripCost, options, setOrderOption } = this.props;
+    return (
+      <Row>
+        {pricing.map(option =>
+          <Col md={4} key={option.id}>
+            <OrderOption {...option} currentValue={option[option.id]}
+              setOrderOption={setOrderOption} />
+          </Col>
+        )}
+        <Col xs={12}>
+          <OrderSummary tripCost={tripCost} options={options} />
+        </Col>
+      </Row>
+    );
+  }
+}
 
 export default OrderForm;
