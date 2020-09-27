@@ -1,4 +1,5 @@
 import countries from '../data/countries.json';
+import pricing from '../data/pricing.json';
 
 const parseTrips = (trips, setStates) => {
   const newState = {
@@ -61,17 +62,17 @@ const parseTrips = (trips, setStates) => {
     }
   }
 
-  // for (let option of pricing) {
-  //   if (typeof (option.defaultValue) != 'undefined') {
-  //     newState.order.options[option.id] = option.defaultValue;
-  //   } else if (typeof (option.limits) != 'undefined' && typeof (option.limits.min) != 'undefined') {
-  //     newState.order.options[option.id] = option.limits.min;
-  //   } else if (option.type == 'checkboxes') {
-  //     newState.order.options[option.id] = [];
-  //   } else {
-  //     newState.order.options[option.id] = '';
-  //   }
-  // }
+  for (let option of pricing) {
+    if (typeof (option.defaultValue) != 'undefined') {
+      newState.order.options[option.id] = option.defaultValue;
+    } else if (typeof (option.limits) != 'undefined' && typeof (option.limits.min) != 'undefined') {
+      newState.order.options[option.id] = option.limits.min;
+    } else if (option.type == 'checkboxes') {
+      newState.order.options[option.id] = [];
+    } else {
+      newState.order.options[option.id] = '';
+    }
+  }
 
   setStates(newState);
 };
