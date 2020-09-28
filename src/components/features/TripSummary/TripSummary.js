@@ -3,8 +3,13 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styles from './TripSummary.scss';
 import { Col } from 'react-flexbox-grid';
+import { promoPrice } from '../../../utils/promoPrice';
+import { getCountdownTime } from '../../../utils/getCountdownTime';
+
+const openHappyHour = getCountdownTime();
 
 const TripSummary = ({ id, image, name, cost, days, tags }) => (
+
   <Col xs={12} sm={6} lg={4} className={styles.column}>
     <Link to={`/trip/${id}`} className={styles.link}>
       <article className={styles.component}>
@@ -12,7 +17,7 @@ const TripSummary = ({ id, image, name, cost, days, tags }) => (
         <h3 className={styles.title}>{name}</h3>
         <div className={styles.details}>
           <span>{days} days</span>
-          <span>from {cost}</span>
+          <span>from {openHappyHour > 82800 ? promoPrice(cost, 20) : cost}</span>
         </div>
         {!tags || tags.length == 0 ? null : (
           <div className={styles.tags}>

@@ -11,11 +11,15 @@ import DetailsImage from '../../common/DetailsImage/DetailsImage';
 import List from '../../common/List/List';
 import ListItem from '../../common/ListItem/ListItem';
 import OrderForm from '../../features/OrderForm/OrderFormContainer';
-
 import styles from './Trip.scss';
 import { Grid, Row, Col } from 'react-flexbox-grid';
+import { promoPrice } from '../../../utils/promoPrice';
+import { getCountdownTime } from '../../../utils/getCountdownTime';
 
 const Trip = ({ error, name, image, cost, days, description, country, intro, id }) => {
+
+  const openHappyHour = getCountdownTime();
+
   if (error) return <NotFound />;
   else return (
     <Section>
@@ -34,7 +38,7 @@ const Trip = ({ error, name, image, cost, days, description, country, intro, id 
               </div>
               <List variant='light'>
                 <ListItem title={`<strong>Duration:</strong> ${days} days`} icon='calendar-alt' />
-                <ListItem title={`<strong>Price:</strong> from ${cost}`} icon='money-bill-wave' />
+                <ListItem title={`<strong>Price</strong> from: ${openHappyHour > 82800 ? promoPrice(cost, 20) : cost}`} icon='money-bill-wave' />
               </List>
             </Col>
           </Row>
@@ -43,6 +47,10 @@ const Trip = ({ error, name, image, cost, days, description, country, intro, id 
       <Grid>
         <Row>
           <Col xs={12}>
+            <div className={styles.prices}>
+              <p className={styles.lowerPrice}>Price from: {promoPrice(cost, 20)}</p>
+              <p className={styles.standardPrice}>Standard price: {cost}</p>
+            </div>
             <PageTitle text='Trip details' />
             {HTMLParser(description)}
           </Col>
@@ -72,6 +80,18 @@ const Trip = ({ error, name, image, cost, days, description, country, intro, id 
           <Col xs={12}>
             <PageTitle text='Trip options' />
             <OrderForm tripCost={cost} tripId={id} tripName={name} tripCode={country.alpha3Code} />
+          </Col>
+        </Row>
+      </Grid>
+      <Grid>
+        <Row>
+          <Col xs={12}>
+            {openHappyHour > 82800 && (
+              <div className={styles.prices}>
+                <p className={styles.lowerPrice}>Price from: {promoPrice(cost, 20)}</p>
+                <p className={styles.standardPrice}>Standard price: {cost}</p>
+              </div>
+            )}
           </Col>
         </Row>
       </Grid>
