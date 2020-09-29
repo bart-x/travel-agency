@@ -28,7 +28,7 @@ class DaysToSummer extends React.Component {
     if (currentDate < summerStart) {
       diffDays =
         Math.ceil(Math.abs((currentDate - summerStart) / oneDay)) +
-        'days to summer';
+        ' days to summer';
     } else if (currentDate > summerEnd) {
       const nextYear = currentDate.getUTCFullYear(nextSummer) + 1; /* DO OMÓWIENIA */
       const nextSummer = new Date(nextYear, 5, 21); /* DO OMÓWIENIA */
